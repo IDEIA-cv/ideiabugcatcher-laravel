@@ -1,0 +1,37 @@
+name: tests
+
+# The package on every PHP/Laravel pair it supports.
+on:
+  push:
+  pull_request:
+
+jobs:
+  phpunit:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        # Laravel 9-11 are not here: every release of them has a security advisory, and Composer
+        # refuses to install those by default. They were tested by hand (Laravel 9 + Monolog 2).
+        include:
+          - { php: '8.2', laravel: '12.*' }
+          - { php: '8.3', laravel: '12.*' }
+          - { php: '8.3', laravel: '13.*' }
+    name: PHP ${{ matrix.php }} / Laravel ${{ matrix.laravel }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          extensions: mbstring, curl, zlib
+          coverage: none
+
+      - name: Install dependencies
+        run: |
+          composer require "illuminate/support:${{ matrix.laravel }}" "illuminate/contracts:${{ matrix.laravel }}" "illuminate/console:${{ matrix.laravel }}" --no-update --no-interaction
+          composer update --prefer-dist --no-interaction --no-progress --with-all-dependencies
+
+      - name: Run tests
+        run: vendor/bin/phpunit

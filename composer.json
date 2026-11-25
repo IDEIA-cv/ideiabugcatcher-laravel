@@ -1,0 +1,55 @@
+{
+    "name": "ideiacv/ideiabugcatcher-laravel",
+    "description": "Sends errors from Laravel projects to IdeiaBugCatcher (replaces bugsnag/bugsnag-laravel).",
+    "type": "library",
+    "license": "proprietary",
+    "keywords": [
+        "laravel",
+        "errors",
+        "exceptions",
+        "monitoring",
+        "ideiabugcatcher"
+    ],
+    "require": {
+        "php": "^8.0",
+        "ext-json": "*",
+        "illuminate/console": "^9.0|^10.0|^11.0|^12.0|^13.0",
+        "illuminate/contracts": "^9.0|^10.0|^11.0|^12.0|^13.0",
+        "illuminate/support": "^9.0|^10.0|^11.0|^12.0|^13.0",
+        "monolog/monolog": "^2.0|^3.0",
+        "symfony/finder": "^6.0|^7.0|^8.0"
+    },
+    "require-dev": {
+        "orchestra/testbench": "^7.0|^8.0|^9.0|^10.0|^11.0",
+        "phpunit/phpunit": "^9.5|^10.0|^11.0|^12.0"
+    },
+    "suggest": {
+        "ext-curl": "Faster delivery with a hard timeout (falls back to PHP streams).",
+        "ext-zlib": "Gzip-compressed payloads."
+    },
+    "autoload": {
+        "psr-4": {
+            "IdeiaCv\\BugCatcher\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "IdeiaCv\\BugCatcher\\Tests\\": "tests/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "IdeiaCv\\BugCatcher\\BugCatcherServiceProvider"
+            ],
+            "aliases": {
+                "BugCatcher": "IdeiaCv\\BugCatcher\\Facades\\BugCatcher"
+            }
+        }
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true
+}
